@@ -48,4 +48,19 @@ public class CountryLanguage {
         return official;
     }
 
+    public void setCountryId(Integer countryId) {
+        this.countryId = countryId;
+    }
+
+    public void setLanguageId(Integer languageId) {
+        this.languageId = languageId;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public void setOfficial(boolean official) {
+        this.official = official;
+    }
 }
