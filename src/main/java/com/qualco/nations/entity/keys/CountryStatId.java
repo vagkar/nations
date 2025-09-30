@@ -6,14 +6,14 @@ import java.io.Serializable;
 @Embeddable
 public class CountryStatId implements Serializable {
 
-    private Long countryId;
+    private Integer countryId;
     private Integer year;
 
-    public Long getCountryId() {
+    public Integer getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(Long countryId) {
+    public void setCountryId(Integer countryId) {
         this.countryId = countryId;
     }
 

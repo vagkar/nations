@@ -20,4 +20,36 @@ public class CountryStat {
     private Integer population;
 
     private BigDecimal gdp;
+
+    public CountryStatId getId() {
+        return id;
+    }
+
+    public void setId(CountryStatId id) {
+        this.id = id;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public Integer getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(Integer population) {
+        this.population = population;
+    }
+
+    public BigDecimal getGdp() {
+        return gdp;
+    }
+
+    public void setGdp(BigDecimal gdp) {
+        this.gdp = gdp;
+    }
 }

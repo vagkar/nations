@@ -1,0 +1,33 @@
+<div class="stats-container">
+  <h2>Country Statistics - Maximum GDP per Capital</h2>
+  <a routerLink="/" class="back-link">Back to Home</a>
+
+  <div *ngIf="loading" class="loading">Loading Statistics...</div>
+
+  <table class="stats-table" *ngIf="!loading && countryStats.length > 0">
+    <thead>
+      <tr>
+        <th>Country</th>
+        <th>Country Code</th>
+        <th>Year</th>
+        <th>Population</th>
+        <th>GDP</th>
+        <th>GDP per Capita</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let stat of countryStats">
+        <td>{{ stat.countryName }}</td>
+        <td>{{ stat.code3 }}</td>
+        <td>{{ stat.year }}</td>
+        <td>{{ stat.population | number }}</td>
+        <td>{{ stat.gdp | number:'1.0-2' }} USD</td>
+        <td>{{ (stat.gdp / stat.population) | number:'1.0-2' }} USD</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && countryStats.length === 0" class="no-data">
+    No statistics available.
+  </div>
+</div>

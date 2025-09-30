@@ -11,3 +11,12 @@ export interface Language {
   name: string;
   official: boolean;
 }
+
+export interface MaxGdpPerPopulationDTO {
+  countryName: string;
+  code3: string;
+  year: number;
+  population: number;
+  gdp: number;
+  ratio: number;
+}

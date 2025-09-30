@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Country, Language } from '../models/country.model';
+import { Country, Language, MaxGdpPerPopulationDTO } from '../models/country.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,12 @@ export class CountryService {
   getCountryLanguages(countryId: string): Observable<Language[]> {
     return this.http.get<Language[]>(
       `${this.apiUrl}/countries/${countryId}/languages`
+    );
+  }
+
+  getMaxRatios(): Observable<MaxGdpPerPopulationDTO[]> {
+    return this.http.get<MaxGdpPerPopulationDTO[]>(
+      `${this.apiUrl}/countries/maxRatios`
     );
   }
 }

@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, ActivatedRoute } from '@angular/router';
-import { OnInit } from '@angular/core';
 import { CountryService } from '../../services/country.service';
-import { Country, Language } from '../../models/country.model';
+import { Language } from '../../models/country.model';
 
 @Component({
   selector: 'app-country-languages',

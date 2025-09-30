@@ -1,12 +1,15 @@
 package com.qualco.nations.service;
 
 import com.qualco.nations.dao.CountryLanguagesRepository;
+import com.qualco.nations.dao.CountryStatsRepository;
 import com.qualco.nations.dto.CountryDTO;
 import com.qualco.nations.dto.LanguageDTO;
 import com.qualco.nations.dao.CountriesRepository;
+import com.qualco.nations.dto.MaxGdpPerPopulationDTO;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,9 +20,12 @@ public class CountryServiceImpl implements CountryService {
 
     private CountryLanguagesRepository countryLanguagesRepository;
 
-    public CountryServiceImpl(CountriesRepository cr, CountryLanguagesRepository cl) {
+    private CountryStatsRepository countryStatsRepository;
+
+    public CountryServiceImpl(CountriesRepository cr, CountryLanguagesRepository cl, CountryStatsRepository csr) {
         countriesRepository = cr;
         countryLanguagesRepository = cl;
+        countryStatsRepository = csr;
     }
 
     @Override
@@ -47,5 +53,21 @@ public class CountryServiceImpl implements CountryService {
                                 c.isOfficial()
                         ))
                 .collect(Collectors.toList());
+    }
+
+    public List<MaxGdpPerPopulationDTO> findMaxRatios() {
+        return countryStatsRepository.findMaxGdpPerCapitalPerCountry()
+                .stream()
+                .map(cs -> new MaxGdpPerPopulationDTO(
+                        cs.getCountry().getName(),
+                        cs.getCountry().getCountryCode3(),
+                        cs.getId().getYear(),
+                        cs.getPopulation(),
+                        cs.getGdp(),
+                        cs.getGdp().divide(
+                                new BigDecimal(cs.getPopulation()),
+                                RoundingMode.HALF_UP
+                        )
+                )).collect(Collectors.toList());
     }
 }
