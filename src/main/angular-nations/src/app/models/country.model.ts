@@ -20,3 +20,18 @@ export interface MaxGdpPerPopulationDTO {
   gdp: number;
   ratio: number;
 }
+
+export interface Region {
+  id: number;
+  name: string;
+  continentName: string;
+}
+
+export interface NationDTO {
+  continent: string;
+  region: string;
+  country: string;
+  year: number;
+  population: number;
+  gdp: number;
+}

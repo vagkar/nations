@@ -3,11 +3,12 @@ import { HomeComponent } from './home/home.component';
 import { CountriesListComponent } from './countries-list/countries-list.component';
 import { CountryLanguagesComponent } from './countries-list/country-languages/country-languages.component';
 import { CountryStatsComponent } from './country-stats/country-stats.component';
+import { CountriesFiltersComponent } from './countries-filters/countries-filters.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'countries', component: CountriesListComponent },
   { path: 'countries/:code/languages', component: CountryLanguagesComponent },
   { path: 'country-stats', component: CountryStatsComponent },
-  //   { path: 'country-details', component: 'CountryDetailsComponent' }
+  { path: 'country-overview', component: CountriesFiltersComponent },
 ];

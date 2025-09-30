@@ -1,0 +1,65 @@
+<div class="details-container">
+  <h2>Overview</h2>
+  <a routerLink="/" class="back-link">Back to Home</a>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label for="region">Region:</label>
+      <select id="region" [(ngModel)]="selectedRegion" (change)="applyFilters()">
+        <option [ngValue]="null">All Regions</option>
+        <option *ngFor="let r of regions" [ngValue]="r.id">{{ r.name }}</option>
+      </select>
+
+    </div>
+    <div class="filter-group">
+      <label for="yearFrom">From Year:</label>
+      <input id="yearFrom" type="text" [(ngModel)]="fromYear" (blur)="applyFilters()">
+    </div>
+
+    <div class="filter-group">
+      <label for="toYear">To Year:</label>
+      <input id="toYear" type="text" [(ngModel)]="toYear" (key)="applyFilters()">
+    </div>
+
+
+
+    <button class="reset-btn" (click)="resetFilters()">Reset Filters</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading data...</div>
+
+  <div class="table-container" *ngIf="!loading">
+    <table class="details-table" *ngIf="displayedNations.length > 0">
+      <thead>
+        <tr>
+          <th>Continent</th>
+          <th>Region</th>
+          <th>Country</th>
+          <th>Year</th>
+          <th>Population</th>
+          <th>GDP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of displayedNations">
+          <td>{{ row.continent }}</td>
+          <td>{{ row.region }}</td>
+          <td>{{ row.country }}</td>
+          <td>{{ row.year }}</td>
+          <td>{{ row.population | number }}</td>
+          <td>{{ row.gdp | number }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!loading && displayedNations.length === 0" class="no-data">
+    No data available for the selected filters.
+  </div>
+
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+</div>

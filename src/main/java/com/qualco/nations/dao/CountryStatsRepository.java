@@ -1,12 +1,14 @@
 package com.qualco.nations.dao;
 
 import com.qualco.nations.entity.CountryStat;
+import com.qualco.nations.entity.keys.CountryStatId;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CountryStatsRepository extends JpaRepository<CountryStat, Integer> {
+public interface CountryStatsRepository extends JpaRepository<CountryStat, CountryStatId>, JpaSpecificationExecutor<CountryStat> {
 
     @Query("SELECT cs " +
             "FROM CountryStat cs " +

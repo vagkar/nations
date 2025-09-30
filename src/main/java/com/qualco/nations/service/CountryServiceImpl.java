@@ -2,14 +2,17 @@ package com.qualco.nations.service;
 
 import com.qualco.nations.dao.CountryLanguagesRepository;
 import com.qualco.nations.dao.CountryStatsRepository;
-import com.qualco.nations.dto.CountryDTO;
-import com.qualco.nations.dto.LanguageDTO;
+import com.qualco.nations.dao.RegionsRepository;
+import com.qualco.nations.dto.*;
 import com.qualco.nations.dao.CountriesRepository;
-import com.qualco.nations.dto.MaxGdpPerPopulationDTO;
+import com.qualco.nations.entity.CountryStat;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,10 +25,13 @@ public class CountryServiceImpl implements CountryService {
 
     private CountryStatsRepository countryStatsRepository;
 
-    public CountryServiceImpl(CountriesRepository cr, CountryLanguagesRepository cl, CountryStatsRepository csr) {
+    private RegionsRepository regionsRepository;
+
+    public CountryServiceImpl(CountriesRepository cr, CountryLanguagesRepository cl, CountryStatsRepository csr, RegionsRepository rr) {
         countriesRepository = cr;
         countryLanguagesRepository = cl;
         countryStatsRepository = csr;
+        regionsRepository = rr;
     }
 
     @Override
@@ -55,6 +61,7 @@ public class CountryServiceImpl implements CountryService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public List<MaxGdpPerPopulationDTO> findMaxRatios() {
         return countryStatsRepository.findMaxGdpPerCapitalPerCountry()
                 .stream()
@@ -69,5 +76,46 @@ public class CountryServiceImpl implements CountryService {
                                 RoundingMode.HALF_UP
                         )
                 )).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RegionDTO> findAllRegions() {
+        return regionsRepository.findAll().stream()
+                .map(r -> new RegionDTO(
+                        r.getRegionId(),
+                        r.getName(),
+                        r.getContinent() != null ? r.getContinent().getName() : null
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<NationDTO> findFilteredNations(Integer regionId, Integer fromYear, Integer toYear) {
+        Specification<CountryStat> spec = getSpecification(regionId, fromYear, toYear);
+
+        return countryStatsRepository.findAll(spec)
+                .stream()
+                .map(cs -> new NationDTO(
+                        cs.getCountry().getRegion().getContinent().getName(),
+                        cs.getCountry().getRegion().getName(),
+                        cs.getCountry().getName(),
+                        cs.getId().getYear(),
+                        cs.getPopulation(),
+                        cs.getGdp()
+                ))
+                .collect(Collectors.toList());
+    }
+
+    private Specification<CountryStat> getSpecification(Integer regionId, Integer fromYear, Integer toYear) {
+        return ((root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (regionId != null) predicates.add(criteriaBuilder.equal(root.get("country").get("region").get("regionId"), regionId));
+
+            if (fromYear != null) predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("id").get("year"), fromYear));
+
+            if (toYear != null) predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("id").get("year"), toYear));
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
     }
 }

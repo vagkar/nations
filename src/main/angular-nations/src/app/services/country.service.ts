@@ -2,7 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Country, Language, MaxGdpPerPopulationDTO } from '../models/country.model';
+import {
+  Country,
+  Language,
+  MaxGdpPerPopulationDTO,
+  NationDTO,
+  Region,
+} from '../models/country.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +31,27 @@ export class CountryService {
   getMaxRatios(): Observable<MaxGdpPerPopulationDTO[]> {
     return this.http.get<MaxGdpPerPopulationDTO[]>(
       `${this.apiUrl}/countries/maxRatios`
+    );
+  }
+
+  getRegions(): Observable<Region[]> {
+    return this.http.get<Region[]>(`${this.apiUrl}/countries/regions`);
+  }
+
+  getFilteredNations(
+    regionId?: number,
+    fromYear?: number,
+    toYear?: number
+  ): Observable<NationDTO[]> {
+    let params: any = {};
+
+    if (regionId) params.regionId = regionId;
+    if (fromYear) params.fromYear = fromYear;
+    if (toYear) params.toYear = toYear;
+
+    return this.http.get<NationDTO[]>(
+      `${this.apiUrl}/countries/filteredNations`,
+      { params }
     );
   }
 }

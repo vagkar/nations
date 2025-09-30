@@ -1,9 +1,6 @@
 package com.qualco.nations.service;
 
-import com.qualco.nations.dto.CountryDTO;
-
-import com.qualco.nations.dto.LanguageDTO;
-import com.qualco.nations.dto.MaxGdpPerPopulationDTO;
+import com.qualco.nations.dto.*;
 
 import java.util.List;
 
@@ -14,4 +11,8 @@ public interface CountryService {
     List<LanguageDTO> findCountryLanguages(Integer countryId);
 
     List<MaxGdpPerPopulationDTO> findMaxRatios();
+
+    List<RegionDTO> findAllRegions();
+
+    List<NationDTO> findFilteredNations(Integer regionId, Integer fromYear, Integer toYear);
 }
