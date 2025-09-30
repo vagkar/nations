@@ -1,0 +1,9 @@
+.countries-list {
+  list-style: none;
+  padding-left: 2rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+}

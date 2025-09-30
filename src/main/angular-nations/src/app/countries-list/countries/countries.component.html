@@ -1,0 +1,5 @@
+<div *ngIf="isLoading" class="loading">Loading countries...</div>
+
+<ul class="countries-list" *ngIf="!isLoading">
+  <app-country *ngFor="let country of countries" [country]="country" (clicked)="viewLanguages($event)"></app-country>
+</ul>

@@ -1,0 +1,7 @@
+<li (click)="viewCountryDetails()" class="country-item">
+  <strong>{{ country.name }}</strong>
+  <span class="country-details">
+    Area: {{ country.area | number:'1.0-2' }} km² |
+    Code: {{ country.countryCode2 }}
+  </span>
+</li>

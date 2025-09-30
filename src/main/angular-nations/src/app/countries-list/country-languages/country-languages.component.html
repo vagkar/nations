@@ -1,0 +1,18 @@
+<div class="languages-contaner">
+  <h2>Languages Spoken in Country</h2>
+  <a routerLink="/countries" class="back-link">Back to Countries</a>
+
+  <div *ngIf="loading" class="loading">Loading languages...</div>
+
+  <div *ngIf="!loading && languages.length > 0" class="languages-list">
+    <h3>Country: {{ countryName }}</h3>
+    <div *ngFor="let language of languages" class="language-item">
+      <span class="language-name">{{ language.name }}</span>
+      <span class="official-badge" *ngIf="language.official">Official</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && languages.length === 0" class="no-data">
+    No languages found for this country.
+  </div>
+</div>
